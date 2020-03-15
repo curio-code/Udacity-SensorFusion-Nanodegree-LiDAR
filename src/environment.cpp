@@ -17,9 +17,9 @@ std::vector<Car> initHighway(bool renderScene, pcl::visualization::PCLVisualizer
 
     Car egoCar( Vect3(0,0,0), Vect3(4,2,2), Color(0,1,0), "egoCar");
     Car car1( Vect3(15,0,0), Vect3(4,2,2), Color(0,0,1), "car1");
-    Car car2( Vect3(8,-4,0), Vect3(4,2,2), Color(0,0,1), "car2");	
+    Car car2( Vect3(8,-4,0), Vect3(4,2,2), Color(0,0,1), "car2");
     Car car3( Vect3(-12,4,0), Vect3(4,2,2), Color(0,0,1), "car3");
-  
+
     std::vector<Car> cars;
     cars.push_back(egoCar);
     cars.push_back(car1);
@@ -44,17 +44,17 @@ void simpleHighway(pcl::visualization::PCLVisualizer::Ptr& viewer)
     // ----------------------------------------------------
     // -----Open 3D viewer and display simple highway -----
     // ----------------------------------------------------
-    
+
     // RENDER OPTIONS
     bool renderScene = false;
     std::vector<Car> cars = initHighway(renderScene, viewer);
-    
-    // TODO:: Create lidar sensor 
-    
+
+    // TODO:: Create lidar sensor
+
     Lidar* lidar = new Lidar(cars, 0);
     pcl::PointCloud<pcl::PointXYZ>::Ptr inputCloud = lidar->scan();
     //renderRays(viewer,lidar->position,inputCloud);
-    // TODO:: Create point processor
+
     //renderPointCloud(viewer, inputCloud,"inputCloud");
     ProcessPointClouds<pcl::PointXYZ> pointProcessor;
     std::pair<pcl::PointCloud<pcl::PointXYZ>::Ptr, pcl::PointCloud<pcl::PointXYZ>::Ptr> segmentCloud = pointProcessor.SegmentPlane(inputCloud, 100, 0.2);
@@ -84,12 +84,12 @@ void initCamera(CameraAngle setAngle, pcl::visualization::PCLVisualizer::Ptr& vi
 {
 
     viewer->setBackgroundColor (0, 0, 0);
-    
+
     // set camera position and angle
     viewer->initCameraParameters();
     // distance away in meters
     int distance = 16;
-    
+
     switch(setAngle)
     {
         case XY : viewer->setCameraPosition(-distance, -distance, distance, 1, 1, 0); break;
@@ -107,7 +107,7 @@ std::unordered_set<int> RansacPlane(pcl::PointCloud<pcl::PointXYZI>::Ptr cloud, 
 	std::unordered_set<int> inliersResult;
 	//srand(time(NULL));
 	//float A,B,C;
-	// TODO: Fill in this function
+
 	while(maxIterations--){
 
 		std::unordered_set<int> inliers;
@@ -144,13 +144,13 @@ std::unordered_set<int> RansacPlane(pcl::PointCloud<pcl::PointXYZI>::Ptr cloud, 
 			if (dist<=distanceTol){
 				inliers.insert(index);
 			}
-			
+
 		}
 		if (inliers.size()>inliersResult.size()){
 			inliersResult = inliers;
 		}
 	}
-	// For max iterations 
+	// For max iterations
 
 	// Randomly sample subset and fit line
 
@@ -159,7 +159,7 @@ std::unordered_set<int> RansacPlane(pcl::PointCloud<pcl::PointXYZI>::Ptr cloud, 
 
 	// Return indicies of inliers from fitted line with most inliers
 
-	
+
 	return inliersResult;
 
 }
@@ -188,7 +188,7 @@ std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr,  pcl::PointCloud<pcl::PointXYZI>
     std::vector<float> = p;
     for (int i=0; i<cloud->points.size(); i++) {
         p.insert({cloud->points[i].x,cloud->points[i].y,cloud->points[i].z});
-    	tree->insert({cloud->points[i].x,cloud->points[i].y,cloud->points[i].z},i); 
+    	tree->insert({cloud->points[i].x,cloud->points[i].y,cloud->points[i].z},i);
     }
 }*/
 void clusterHelper(int indice, const std::vector<std::vector<float>>& points, std::vector<int>& cluster, std::vector<bool>& processed, KdTree* tree, float distanceTol){
@@ -200,14 +200,14 @@ void clusterHelper(int indice, const std::vector<std::vector<float>>& points, st
 	for (int id : nearest){
 		if (!processed[id])
 			clusterHelper(id, points, cluster, processed, tree, distanceTol);
-			
+
 	}
 }
 
 std::vector<std::vector<int>> euclideanCluster(const std::vector<std::vector<float>>& points, KdTree* tree, float distanceTol)
 {
 
-	// TODO: Fill out this function to return list of indices for each cluster
+
 
 	std::vector<std::vector<int>> clusters;
 	std::vector<bool> processed (points.size(), false);
@@ -222,10 +222,10 @@ std::vector<std::vector<int>> euclideanCluster(const std::vector<std::vector<flo
         if (cluster.size()>100){
             clusters.push_back(cluster);
         }
-		
+
 		i++;
 
-	} 
+	}
 	return clusters;
 
 }
@@ -234,17 +234,17 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointCloud
 {
     Eigen::Vector4f minPoint (-30, -6.5, -3, 1);
     Eigen::Vector4f maxPoint (30, 6.5, 10, 1);
-    
+
     pcl::PointCloud<pcl::PointXYZI>::Ptr filterCloud = pointProcessorI->FilterCloud(inputCloud, 0.2, minPoint, maxPoint);
     std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud = SegmentPlane_UD(filterCloud, 100, 0.2);
 
     std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr> cloudClusters;
-    
+
     KdTree* tree = new KdTree;
     std::vector<std::vector<float>>  p;
     for (int i=0; i<segmentCloud.first->points.size(); i++) {
         p.push_back({segmentCloud.first->points[i].x,segmentCloud.first->points[i].y,segmentCloud.first->points[i].z});
-    	tree->insert({segmentCloud.first->points[i].x,segmentCloud.first->points[i].y,segmentCloud.first->points[i].z},i); 
+    	tree->insert({segmentCloud.first->points[i].x,segmentCloud.first->points[i].y,segmentCloud.first->points[i].z},i);
         }
     std::vector<std::vector<int>> clusters = euclideanCluster(p, tree, 0.53);
     int clusId = 0;
@@ -282,10 +282,10 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointCloud
         }
         ++clusterId;
     }
-    
-    
-    
-    
+
+
+
+
     //renderPointCloud(viewer, segmentCloud.first, "filtercloud");
 }
 
@@ -308,9 +308,9 @@ int main (int argc, char** argv)
     std::vector<std::vector<float>>  p;
     for (int i=0; i<inputCloud->points.size(); i++) {
         p.push_back({inputCloud->points[i].x,inputCloud->points[i].y,inputCloud->points[i].z});
-    	tree->insert({inputCloud->points[i].x,inputCloud->points[i].y,inputCloud->points[i].z},i); 
+    	tree->insert({inputCloud->points[i].x,inputCloud->points[i].y,inputCloud->points[i].z},i);
     }
-    for (int i=0; i<p.size(); i++) 
+    for (int i=0; i<p.size(); i++)
     	tree->insert(p[i],i);
     std::vector<std::vector<int>> clusters = euclideanCluster(p, tree, 4.0);*/
     while (!viewer->wasStopped ())
@@ -321,7 +321,7 @@ int main (int argc, char** argv)
 
         // load pcd
         inputCloud = pointProcessorI->loadPcd((*stream_iter).string());
-        
+
 
         // run obstacle detection
         cityBlock(viewer, pointProcessorI, inputCloud);
