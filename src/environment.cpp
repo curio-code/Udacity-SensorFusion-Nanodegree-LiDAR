@@ -207,8 +207,6 @@ void clusterHelper(int indice, const std::vector<std::vector<float>>& points, st
 std::vector<std::vector<int>> euclideanCluster(const std::vector<std::vector<float>>& points, KdTree* tree, float distanceTol)
 {
 
-
-
 	std::vector<std::vector<int>> clusters;
 	std::vector<bool> processed (points.size(), false);
 	int i =0;
@@ -282,10 +280,6 @@ void cityBlock(pcl::visualization::PCLVisualizer::Ptr& viewer, ProcessPointCloud
         }
         ++clusterId;
     }
-
-
-
-
     //renderPointCloud(viewer, segmentCloud.first, "filtercloud");
 }
 
