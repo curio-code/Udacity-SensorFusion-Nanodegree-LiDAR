@@ -3,7 +3,7 @@
 #include "processPointClouds.h"
 
 
-//constructor:
+//constructor::
 template<typename PointT>
 ProcessPointClouds<PointT>::ProcessPointClouds() {}
 
@@ -208,7 +208,7 @@ template<typename PointT>
 std::vector<boost::filesystem::path> ProcessPointClouds<PointT>::streamPcd(std::string dataPath)
 {
     std::vector<boost::filesystem::path> paths(boost::filesystem::directory_iterator{dataPath}, boost::filesystem::directory_iterator{});
-    
+
     // sort files in accending order so playback is chronological
     sort(paths.begin(), paths.end());
 
