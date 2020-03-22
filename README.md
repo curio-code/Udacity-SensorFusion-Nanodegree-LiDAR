@@ -24,7 +24,18 @@ The complete explaination and implementation has been disscussed at ```quiz/rans
 ## Clustering
 ![alt text](https://github.com/curio-code/Udacity-SensorFusion-Nanodegree-LiDAR/blob/master/media/clustering.png)
 
-### Linux Ubuntu 16
+
+## Installation - Linux
+```
+$> git clone https://github.com/curio-code/Udacity-SensorFusion-Nanodegree-LiDAR.git
+$> cd Udacity-SensorFusion-Nanodegree-LiDAR
+$> mkdir build && cd build
+$> cmake ..
+$> make
+$> ./environment
+```
+
+## PCL Installation
 
 Install PCL, C++
 
@@ -37,4 +48,3 @@ A few updates to the instructions above were needed.
 
 * BUILD_visualization needed to be manually turned on, this link shows you how to do that,
 http://www.pointclouds.org/documentation/tutorials/building_pcl.php
-
