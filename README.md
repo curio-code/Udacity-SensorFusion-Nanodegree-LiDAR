@@ -21,6 +21,9 @@ The complete explaination and implementation has been disscussed at ```quiz/rans
 ![alt text](https://github.com/curio-code/Udacity-SensorFusion-Nanodegree-LiDAR/blob/master/media/ransac1.png)
 ![alt text](https://github.com/curio-code/Udacity-SensorFusion-Nanodegree-LiDAR/blob/master/media/ransac2.png)
 
+## Clustering
+![alt text](https://github.com/curio-code/Udacity-SensorFusion-Nanodegree-LiDAR/blob/master/media/clustering.png)
+
 ### Linux Ubuntu 16
 
 Install PCL, C++
