@@ -14,7 +14,12 @@ Filtering of point cloud was done so as to Downsample the pointcloud and to excl
   2. ```pcl::CropBox``` function was utilized to exclude the rooftop points and points outside ROI.
   
 ## Segmentaion
+Segmentation divides the scene into plane and objects. PCL inbuilt RANSAC algorithm was utilized to implement segmentation. However a self written RANSAC algorithm can be found at ```quiz->ransac```.<br /> 
+The complete explaination and implementation has been disscussed at ```quiz/ransac/RansacQuiz.md```. 
+<br /> 
 
+![alt text](https://github.com/curio-code/Udacity-SensorFusion-Nanodegree-LiDAR/blob/master/media/ransac1.png)
+![alt text](https://github.com/curio-code/Udacity-SensorFusion-Nanodegree-LiDAR/blob/master/media/ransac2.png)
 
 ### Linux Ubuntu 16
 
