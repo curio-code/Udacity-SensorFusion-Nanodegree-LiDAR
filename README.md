@@ -7,6 +7,15 @@
 ## Code PipeLine
 ![alt text](https://github.com/curio-code/Udacity-SensorFusion-Nanodegree-LiDAR/blob/master/media/flowchart.png)
 
+## Filtering the LiDAR Data
+Filtering of point cloud was done so as to Downsample the pointcloud and to exclude unwanted points such as points on car roof top and points located outside out of region of interest.
+
+  1. ```pcl::VoxelGrid``` function was utilized to downasample the point cloud.
+  2. ```pcl::CropBox``` function was utilized to exclude the rooftop points and points outside ROI.
+  
+## Segmentaion
+
+
 ### Linux Ubuntu 16
 
 Install PCL, C++
